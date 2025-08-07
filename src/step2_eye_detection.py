@@ -36,7 +36,7 @@ while cap.isOpened():
     
         # 얼굴 랜드마크 검출 --- ④
         shape = predictor(gray, rect)
-        for i in range(68):
+        for i in range(36, 48):
             # 부위별 좌표 추출 및 표시 --- ⑤
             part = shape.part(i)
 #            cv2.circle(img, (part.x, part.y), 2, (0, 0, 255), -1)
