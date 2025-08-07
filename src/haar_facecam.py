@@ -19,7 +19,7 @@ while cap.isOpened():
             left, top, right, bottom, confidence = face_detection.rect.left(), face_detection.rect.top(), face_detection.rect.right(), face_detection.rect.bottom(), face_detection.confidence
             print(f'confidence{idx+1}: {confidence}')  # print confidence of the detection
             cv2.rectangle(img_resized, (left, top), (right, bottom), (0, 255, 0), 2)
-        cv2.imshow(img_resized)
+        cv2.imshow('camera',img_resized)
     else:
         break
     if cv2.waitKey(5) == 27:
