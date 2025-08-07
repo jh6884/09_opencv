@@ -14,7 +14,7 @@ while cap.isOpened():
     if ret:
         img_resized = cv2.resize(img, (640, 480))
         gray = cv2.cvtColor(img_resized, cv2.COLOR_BGR2GRAY)
-        face_detections = cnn_face_detector(img_resized, 1)
+        face_detections = cnn_face_detector(gray, 1)
         for idx, face_detection in enumerate(face_detections):
             left, top, right, bottom, confidence = face_detection.rect.left(), face_detection.rect.top(), face_detection.rect.right(), face_detection.rect.bottom(), face_detection.confidence
             print(f'confidence{idx+1}: {confidence}')  # print confidence of the detection
