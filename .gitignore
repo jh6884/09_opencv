@@ -2,3 +2,4 @@ img/faces/*
 data/*
 src/*.xml
 src/*.npy
+src/*.bz2
