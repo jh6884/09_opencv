@@ -11,13 +11,15 @@ while cap.isOpened():
     if not ret:
         break
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
     for (x,y,w,h) in faces:
         mozaic_area = img[y:y+h, x:x+w]
         mozaic_area = cv2.resize(mozaic_area, (w//rate, h//rate))
         mozaic_area = cv2.resize(mozaic_area, (w, h), interpolation=cv2.INTER_AREA)
         img[y:y+h, x:x+w] = mozaic_area
-
-cv2.imshow('camera', img)
-cv2.waitKey(0)
+    cv2.imshow('camera', img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+    
+cap.release()
 cv2.destroyAllWindows()
