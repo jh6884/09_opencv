@@ -5,6 +5,7 @@ import dlib
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('./shape_predictor_68_face_landmarks.dat')
 
+# 시간 변수 초기화
 prev_time = 0
 
 cap = cv2.VideoCapture(0)
@@ -14,12 +15,16 @@ while cap.isOpened():
     if not ret:
         print('no frame.');break
     
+    # fps 표기를 위해 시간을 측정
     curr_time = time.time()
     sec = curr_time - prev_time
     fps = 1 / sec
     str_fps = "FPS : %0.1f" % fps
+
+    # fps를 영상 위에 표시
     cv2.putText(img, str_fps, (0, 30), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0))
-    
+    prev_time = curr_time
+
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 얼굴 영역 검출 --- ②
     faces = detector(gray)
