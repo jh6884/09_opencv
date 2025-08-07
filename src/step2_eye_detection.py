@@ -36,18 +36,18 @@ while cap.isOpened():
     
         # 얼굴 랜드마크 검출 --- ④
         shape = predictor(gray, rect)
-        areax = []
-        areay = []
-        for i in range(36, 48):
-            # 부위별 좌표 추출 및 표시 --- ⑤
+        xls = [] # 왼쪽 눈 x좌표
+        yls = [] # 왼쪽 눈 y좌표
+        xrs = [] # 오른쪽 눈 x좌표
+        yrs = [] # 오른쪽 눈 y좌표
+        for i in range(36, 42):
             part = shape.part(i)
-            areax.append(part.x)
-            areay.append(part.y)
-            print(min(areax), max(areax))
-            cv2.rectangle(img, (min(areax), min(areay)), (max(areax), max(areay)), (0, 255, 0), 1)
-#            cv2.circle(img, (part.x, part.y), 2, (0, 0, 255), -1)
-#            cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
-    
+#            cv2.rectangle(img, (min(x), min(y)), (max(x), max(y)), (0, 255, 0), 1)
+            cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
+        for i in range(42, 48):
+            part = shape.part(i)
+#            cv2.rectangle(img, (min(x), min(y)), (max(x), max(y)), (0, 255, 0), 1)
+            cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
     cv2.imshow("face landmark", img)
     if cv2.waitKey(1)== 27:
         break
