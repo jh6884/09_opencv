@@ -36,18 +36,31 @@ while cap.isOpened():
     
         # 얼굴 랜드마크 검출 --- ④
         shape = predictor(gray, rect)
-        xls = [] # 왼쪽 눈 x좌표
-        yls = [] # 왼쪽 눈 y좌표
-        xrs = [] # 오른쪽 눈 x좌표
-        yrs = [] # 오른쪽 눈 y좌표
+        xl = [] # 왼쪽 눈 x좌표
+        yl = [] # 왼쪽 눈 y좌표
+        xr = [] # 오른쪽 눈 x좌표
+        yr = [] # 오른쪽 눈 y좌표
         for i in range(36, 42):
             part = shape.part(i)
-#            cv2.rectangle(img, (min(x), min(y)), (max(x), max(y)), (0, 255, 0), 1)
-            cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
+            xr.append(part.x)
+            yr.append(part.y)
+           # cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
         for i in range(42, 48):
             part = shape.part(i)
-#            cv2.rectangle(img, (min(x), min(y)), (max(x), max(y)), (0, 255, 0), 1)
-            cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
+            xl.append(part.x)
+            yl.append(part.y)
+            
+           # cv2.putText(img, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
+        cv2.rectangle(img, (min(xr), min(yr)), (max(xr), max(yr)), (0, 255, 0), 1)
+        cv2.rectangle(img, (min(xl), min(yl)), (max(xl), max(yl)), (0, 255, 0), 1)
+        avgxl = sum(xl) // len(xl)
+        avgyl = sum(yl) // len(yl)
+        avgxr = sum(xr) // len(xr)
+        avgyr = sum(yr) // len(yr)
+        cv2.circle(img, (avgxl, avgyl), 1, (0, 0, 255), -1)
+        cv2.circle(img, (avgxr, avgyr), 1, (0, 0, 255), -1)
+
+
     cv2.imshow("face landmark", img)
     if cv2.waitKey(1)== 27:
         break
