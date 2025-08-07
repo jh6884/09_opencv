@@ -3,7 +3,7 @@ import numpy as np
 import os, glob
 
 # 변수 설정 --- ①
-base_dir = '../faces/shin_405'
+base_dir = '../img/faces'
 train_data, train_labels = [], []
 
 
@@ -28,5 +28,5 @@ train_labels = np.int32(train_labels)
 print('Starting LBP Model training...')
 model = cv2.face.LBPHFaceRecognizer_create()
 model.train(train_data, train_labels)
-model.write('../faces/all_face.xml')
+model.write('../img/faces/all_face.xml')
 print("Model trained successfully!")
