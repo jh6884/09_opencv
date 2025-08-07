@@ -3,3 +3,4 @@ data/*
 src/*.xml
 src/*.npy
 src/*.bz2
+src/*.dat
