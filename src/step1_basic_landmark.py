@@ -22,19 +22,20 @@ def detect_faces(frame, detector, predictor):
             cv2.circle(frame, (part.x, part.y), 2, (0, 0, 255), -1)
             #cv2.putText(frame, str(i), (part.x, part.y), cv2.FONT_HERSHEY_PLAIN, 0.5,(255,255,255), 1, cv2.LINE_AA)
 
-def frame_per_second(frame):
-    # 시간 변수 초기화
-    prev_time = 0
-        # fps 표기를 위해 시간을 측정
-    curr_time = time.time()
-    sec = curr_time - prev_time
-    fps = 1 / sec
-    str_fps = "FPS : %0.1f" % fps
-
-# fps를 영상 위에 표시
-    cv2.putText(frame, str_fps, (0, 30), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0))
-    prev_time = curr_time
-
+def frame_per_second(frame, start_time, frame_count):
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    
+    if elapsed_time >= 1.0:
+        fps = frame_count / elapsed_time
+        str_fps = f"FPS: {fps:.2f}"
+        cv2.putText(frame, str_fps, (0, 30), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
+        
+        # 변수 초기화 후 반환
+        return time.time(), 0
+    else:
+        # 1초가 지나지 않았을 경우 현재 상태 유지
+        return start_time, frame_count
 
 cap = cv2.VideoCapture(0)
 
@@ -44,9 +45,13 @@ while cap.isOpened():
         break
 
     detect_faces(img, detector, predictor)
-    frame_per_second(img)
+    time_for_fps = time.time()
+    frame_count = 0
+    frame_per_second(img, time_for_fps, frame_count)
 
     cv2.imshow('camera', img)
-    cv2.waitKey(0)
+    if cv2.waitKey(1) == ord('q'):
+        break
+
 cap.release()
 cv2.destroyAllWindows()
